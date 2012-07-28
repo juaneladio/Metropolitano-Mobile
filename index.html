@@ -1,88 +1,234 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>Metropolitano Mobile</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<script type="text/javascript" src="metropolitano.js"></script>
+</head> 
 
-  <title>juaneladio/Metropolitano-Mobile @ GitHub</title>
+<script>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #ffffff;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #000000; }
-    h3 { text-align: center; color: #000000; }
-    a { color: #000000; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+// Load the data for a specific category, based on
+// the URL passed in. Generate markup for the items in the
+// category, inject it into an embedded page, and then make
+// that page the current active page.
+function showCategory( urlObj, options )
+{
+	var categoryName = urlObj.hash.replace( /.*category=/, "" ),
 
+		// Get the object that represents the category we
+		// are interested in. Note, that at this point we could
+		// instead fire off an ajax request to fetch the data, but
+		// for the purposes of this sample, it's already in memory.
+		category = categoryData[ categoryName ],
+
+		// The pages we use to display our content are already in
+		// the DOM. The id of the page we are going to write our
+		// content into is specified in the hash before the '?'.
+		pageSelector = urlObj.hash.replace( /\?.*$/, "" );
+
+	if ( category ) {
+		// Get the page we are going to dump our content into.
+		var $page = $( pageSelector ),
+
+			// Get the header for the page.
+			$header = $page.children( ":jqmData(role=header)" ),
+map_canvas
+			// Get the content area element for the page.
+			$content = $page.children( ":jqmData(role=content)" ),
+
+			// The markup we are going to inject into the content
+			// area of the page.
+			markup = "<p>" + category.description + "</p><ul data-role='listview' data-inset='true' data-filter='true'>",
+
+			// The array of items for this category.
+			cItems = category.items,
+
+			// The number of items in the category.
+			numItems = cItems.length;
+
+		// Generate a list item for each item in the category
+		// and add it to our markup.
+		for ( var i = 0; i < numItems; i++ ) {
+			markup += "<li><div data-role='collapsible'>";
+			markup += "<h3>" + cItems[i].name + "</h3>";
+			markup += "<p>" + cItems[i].address + "</p>";
+			markup += "<p class='ui-li-aside'><a href='#basic_map'>Ver Mapa</a></p>";
+			markup += "</div></li>";
+		}
+		markup += "</ul>";
+
+		// Find the h1 element in our header and inject the name of
+		// the category into it.
+		$header.find( "h1" ).html( category.name );
+
+		// Inject the category items markup into the content element.
+		$content.html( markup );
+
+		// Pages are lazily enhanced. We call page() on the page
+		// element to make sure it is always enhanced before we
+		// attempt to enhance the listview markup we just injected.
+		// Subsequent calls to page() are ignored since a page/widget
+		// can only be enhanced once.
+		$page.page();
+
+		// Enhance the listview we just injected.
+		$content.find( ":jqmData(role=listview)" ).listview();
+
+		// We don't want the data-url of the page we just modified
+		// to be the url that shows up in the browser's location field,
+		// so set the dataUrl option to the URL for the category
+		// we just loaded.
+		options.dataUrl = urlObj.href;
+
+		// Now call changePage() and tell it to switch to
+		// the page we just modified.
+		$.mobile.changePage( $page, options );
+	}
+}
+
+ 
+// Listen for any attempts to call changePage().
+$(document).bind( "pagebeforechange", function( e, data ) {
+	// We only want to handle changePage() calls where the caller is
+	// asking us to load a page by URL.
+	if ( typeof data.toPage === "string" ) {
+		// We are being asked to load a page by URL, but we only
+		// want to handle URLs that request the data for a specific
+		// category.
+		var u = $.mobile.path.parseUrl( data.toPage ),
+			re = /^#category-item/;
+		if ( u.hash.search(re) !== -1 ) {
+			// We're being asked to display the items for a specific category.
+			// Call our internal method that builds the content for the category
+			// on the fly based on our in-memory category data structure.
+			showCategory( u, data.options );
+
+			// Make sure to tell changePage() we've handled this call so it doesn't
+			// have to do anything.
+			e.preventDefault();
+		}
+	}
+});
+
+        $(function() {
+                // Also works with: var yourStartLatLng = '-11.981740, -77.058820';
+		var mobileDemo = { 'center': '-11.981740, -77.058820', 'zoom': 16 };
+                $('#map_canvas').gmap({'center': mobileDemo.center, 'zoom': mobileDemo.zoom, 'disableDefaultUI':true, 'callback': function() {
+							var self = this;
+							self.addMarker({'position': this.get('map').getCenter() }).click(function() {
+								self.openInfoWindow({ 'content': 'Hello World!' }, this);
+							});
+						}});
+	});
+
+</script>
 <body>
-  <a href="https://github.com/juaneladio/Metropolitano-Mobile"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
+<div data-role="page" id="inicio" data-theme="b">
+	<div data-role="header">
+		<h1>Metropolitano Mobile</h1>
+	</div><!-- /header -->
+	<div data-role="content">	
+		<p>S&oacute;lo con informaci&oacute;n de Estaciones y Servicios. Pendiente integraci&oacute;n con Google Maps (coordenadas ya inclu&iacute;das).</p>
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#category-items?category=estaciones">Estaciones</a></li>
+			<li><a href="#servicios">Servicios Principales</a></li>
+			<li><a href="#error404" data-rel="dialog" data-transition="pop">Alimentadores</a></li>
+			<li><a href="#error404" data-rel="dialog" data-transition="pop">Estaciones cercanas</a></li>
+		</ul>		
+	</div><!-- /content -->
+	<div data-role="footer">
+		<p>Un experimento de <a href="https://github.com/juaneladio/Metropolitano-Mobile">c&oacute;digo abierto</a> a partir de informaci&oacute;n p&uacute;blica. Sin relaci&oacute;n con la Municipalidad Metropolitana de Lima.</p>
+	</div><!-- /footer -->
+</div><!-- /page main -->
 
-    <div class="download">
-      <a href="https://github.com/juaneladio/Metropolitano-Mobile/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/juaneladio/Metropolitano-Mobile/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
+<div data-role="page" id="servicios" data-theme="b">
+	<div data-role="header">
+		<h1>Metropolitano Mobile</h1>
+		<a data-rel="back">Volver</a>
+	</div><!-- /header -->
+	<div data-role="content">
+		<ul data-role="listview" data-inset="true">
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Regular A</h3>
+				<p>Todas las estaciones<br>LUNES A DOMINGO: 06:00 am - 09:50 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-regular-a">Ver estaciones</a></p>
+				</div>
+			</li>
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Regular B</h3>
+				<p>Todas las estaciones<br>LUNES A DOMINGO: 06:00 am - 09:50 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-regular-b">Ver estaciones</a></p>
+				</div>
+			</li>
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Regular C</h3>
+				<p>Todas las estaciones<br>LUNES A DOMINGO: 06:00 am - 09:50 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-regular-c">Ver estaciones</a></p>
+				</div>
+			</li>
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Expreso 1</h3>
+				<p>Sentido: De Naranjal a Matellini<br>LUNES A VIERNES: 5:58 am - 9:00 am / 4:45 pm - 9:00 pm</p>
+				<p>Sentido: De Matellini a Naranjal<br>LUNES A VIERNES: 6:30 am - 9:00 am / 5:00 pm - 8:15 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-expreso-1">Ver estaciones</a></p>
+				</div>
+			</li>
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Expreso 2</h3>
+				<p>Sentido: De Naranjal a Plaza de Flores<br>LUNES A VIERNES: 6:08 am - 9:00 am / 4:47 pm - 8:40 pm</p>
+				<p>Sentido: De Plaza de Flores a Naranjal<br>LUNES A VIERNES: 6:30 am - 9:00 am / 5:00 pm - 8:15 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-expreso-2">Ver estaciones</a></p>
+				</div>
+			</li>
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Expreso 3</h3>
+				<p>Sentido: De Naranjal a Matellini<br>LUNES A VIERNES: 5:56 am - 9:10 am / 6:15 am - 9:02 am</p>
+				<p>Sentido: De Matellini a Naranjal<br>LUNES A VIERNES: 5:03 pm - 8:55 pm / 5:00 pm - 9:00 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-expreso-3">Ver estaciones</a></p>
+				</div>
+			</li>
+			<li>
+				<div data-role="collapsible">
+				<h3>Servicio Expreso 4</h3>
+				<p>Sentido: De Naranjal a Plaza de Flores<br>SÁBADO: 6:00 am - 9:00 pm</p>
+				<p>Sentido: De Plaza de Flores a Naranjal<br>SÁBADO: 6:00 am - 9:00 pm</p>
+				<p class="ui-li-aside"><a href="#servicios-expreso-4">Ver estaciones</a></p>
+				</div>
+			</li>
+		</ul>		
+	</div><!-- /content -->
+	<div data-role="footer">
+		<h4>Un experimento de <a href="https://github.com/juaneladio/Metropolitano-Mobile">c&oacute;digo abierto</a></h4>
+	</div><!-- /footer -->
+</div><!-- /page rutas -->
 
-    <h1><a href="https://github.com/juaneladio/Metropolitano-Mobile">Metropolitano-Mobile</a>
-      <span class="small">by <a href="https://github.com/juaneladio">juaneladio</a></span></h1>
+<div data-role="page" id="category-items" data-theme="b">
+  <div data-role="header" ><h1></h1><a data-rel="back">Volver</a></div>
+  <div data-role="content" data-theme="b"></div>
+</div>
 
-    <div class="description">
-      Proyecto en JQuery Mobile para construir una web móvil con información del servicio de transporte Metropolitano en Lima, Perú. Inspirado en la aplicación El Metropolitano para Android.
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-      <h2>Authors</h2>
-      <p>Juan Eladio Sanchez Rosas (globalpegasus@gmail.com)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p>Juan Eladio Sánchez Rosas (globalpegasus@gmail.com)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/juaneladio/Metropolitano-Mobile/zipball/master">zip</a> or
-      <a href="https://github.com/juaneladio/Metropolitano-Mobile/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/juaneladio/Metropolitano-Mobile</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/juaneladio/Metropolitano-Mobile">juaneladio/Metropolitano-Mobile</a>
-    </div>
-
-  </div>
+<!-- Start of page: #error404 -->
+<div data-role="page" id="error404">
+	<div data-role="header" data-theme="e">
+		<h1>Error</h1>
+	</div><!-- /header -->
+	<div data-role="content" data-theme="d">	
+		<h2>Popup</h2>
+		<p>No disponible</p>		
+		<p><a href="#inicio" data-rel="back" data-role="button" data-inline="true" data-icon="back">Volver</a></p>	
+	</div><!-- /content -->
+</div><!-- /page error404 -->
 
 </body>
 </html>
