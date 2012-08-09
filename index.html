@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<title>Metropolitano Mobile</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="app-manifest" href="http://juaneladio.github.com/Metropolitano-Mobile/manifest.webapp" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
 	<link rel="stylesheet" href="lib/leaflet/leaflet.css" />
 	<link rel="stylesheet" href="css/style.css" />
@@ -258,5 +259,16 @@ $(document).bind( "pagebeforechange", function( e, data ) {
         map.addLayer(new wax.leaf.connector(tilejson));
     });
     </script>
+	<script type="text/javascript" src="js/mozapps.js"></script>
+	<script type="text/javascript">
+
+             var path = document.location.pathname;
+            var L_ROOT_URL = path.substr(0, path.indexOf('index.html', 1));
+
+
+if (!mozApps.isRunning()) {
+        mozApps.install();
+    }
+        </script>
 </body>
 </html>

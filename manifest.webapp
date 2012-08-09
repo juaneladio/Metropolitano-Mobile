@@ -1,0 +1,24 @@
+    {
+      "version": "0.3",
+      "name": "Metropolitano Mobile",
+      "description": "Un experimento de codigo abierto a partir de informacion publica. Sin relacion con la Municipalidad Metropolitana de Lima.",
+      "icons": {
+        "16": "/img/icon16.png",
+        "48": "/img/icon48.png",
+        "128": "/img/icon128.png"
+      },
+      "developer": {
+        "name": "Mozilla Perú",
+        "url": "http://juaneladio.github.com/Metropolitano-Mobile/"
+      },
+      "installs_allowed_from": ["*"],
+      "locales": {
+        "es": {
+          "description": "Un experimento de codigo abierto a partir de informacion publica. Sin relacion con la Municipalidad Metropolitana de Lima.",
+          "developer": {
+            "url": "http://juaneladio.github.com/Metropolitano-Mobile/"
+          }
+        }
+      },
+      "default_locale": "es"
+    } 
