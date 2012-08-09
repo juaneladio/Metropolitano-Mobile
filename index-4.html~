@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+	<meta charset="UTF-8">
+	<title>Metropolitano Mobile</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery.mobile-1.1.1.min.js"></script>
+</head>
+<body>
+<div data-role="page" id="inicio" data-theme="b">
+	<div data-role="header">
+		<h1>Metropolitano Mobile</h1>
+	</div>
+	<div data-role="content">
+		<p>Metropolitano es el sistema de transporte urbano que interconecta Lima.</p>
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#error404">Estaciones</a></li>
+			<li><a href="#error404">Servicios Principales</a></li>
+			<li><a href="#error404" data-rel="dialog" data-transition="pop">Alimentadores</a></li>
+			<li><a href="#error404" data-rel="dialog" data-transition="pop">Estaciones cercanas</a></li>
+			<li><a href="#contacto">Contáctenos</a></li>
+		</ul>		
+	</div>
+	<div data-role="footer">
+		<p>Un experimento de Mozilla Perú para XX CONEISC.</p>
+	</div>
+</div>
+
+<!-- #error404 -->
+<div data-role="page" id="error404">
+	<div data-role="header" data-theme="e">
+		<h1>Error</h1>
+	</div><!-- /header -->
+	<div data-role="content" data-theme="d">	
+		<h2>Popup</h2>
+		<p>No disponible</p>		
+		<p><a href="#inicio" data-rel="back" data-role="button" data-inline="true" data-icon="back">Volver</a></p>	
+	</div>
+</div><!-- /error404 -->
+
+<!-- #contacto -->
+<div data-role="page" id="contacto" data-theme="b">
+  <div data-role="header" ><h1>Contáctenos</h1><a data-rel="back">Volver</a></div>
+  <div data-role="content" data-theme="b">
+  <form action="enviar.php" id="enviar" name="enviar" method="POST">
+    <label for="email">Nombre</label>
+    <input type="text" name="email" value="">
+    <label for="email">E-mail</label>
+    <input type="email" name="email" value="" required>
+    <label for="satisfaccion">Nivel de satisfacción</label>
+    <input type="range" name="satisfaccion" min="0" max="10">
+    <label for="mensaje"><br>Comentario</label>
+    <textarea name="mensaje" value=""></textarea>
+    <input type="submit" value="Enviar" data-icon="gear" data-iconpos="top">
+  </form>
+  </div>
+</div><!-- /contacto -->
+
+</body>
+</html>
