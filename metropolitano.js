@@ -4,7 +4,7 @@ var categoryData = {
 		name: "Estaciones",
 		description: "Busca tu estaci&oacute;n",
 		items: [
-		{ name: "Naranjal", address: "Av. T&uacute;pac Amaru cdra 45 con Av. Chinchaysuyo cdra 1 - Independencia", coordinates: "-11.982013,-77.058663", },
+		{ name: "Naranjal", address: "Av. T&uacute;pac Amaru cdra 45 con Av. Chinchaysuyo cdra 1 - Independencia", coordinatelat: "-11.982013", coordinatelng: "-77.058663", },
 		{ name: "Izaguirre", address: "Av. T&uacute;pac Amaru cdra 37 con Av. C Izaguirre cdra 1 - Independencia", coordinates: "-11.988667,-77.056915", },
 		{ name: "Pacifico", address: "Av. T&uacute;pac Amaru cdra 35 con Av. Pac&iacute;fico cdra 1 - Independencia", coordinates: "-11.994166,-77.056207", },
 		{ name: "Independencia", address: "Av. T&uacute;pac Amaru cdra 33 con Av. Los Pinos cdra 1 - Independencia", coordinates: "-11.997383,-77.055225", },

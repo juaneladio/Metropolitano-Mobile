@@ -1,12 +1,31 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
+	<meta charset="utf-8">
 	<title>Metropolitano Mobile</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
-<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<script src="lib/leaflet/leaflet.js"></script>
+	<script src="lib/wax.leaf.min.js"></script>
 	<script type="text/javascript" src="metropolitano.js"></script>
+	<script>
+		function fadeEfect(latitud,longitud){
+			$('#bg').fadeIn('slow');
+			$('#map').fadeIn('slow');
+			map.setView(new L.LatLng(latitud,longitud),15);
+			L.marker([latitud,longitud]).addTo(map);
+		};
+		$(document).keyup(function(e){
+	    if(e.which == 27){
+				$('#bg').fadeOut('slow');
+				$('#map').fadeOut('slow');
+	    }
+		});
+	</script>
 </head> 
 
 <script>
@@ -36,7 +55,7 @@ function showCategory( urlObj, options )
 
 			// Get the header for the page.
 			$header = $page.children( ":jqmData(role=header)" ),
-map_canvas
+
 			// Get the content area element for the page.
 			$content = $page.children( ":jqmData(role=content)" ),
 
@@ -53,10 +72,12 @@ map_canvas
 		// Generate a list item for each item in the category
 		// and add it to our markup.
 		for ( var i = 0; i < numItems; i++ ) {
+			coordinatelat = cItems[i].coordinatelat;
+			coordinatelng = cItems[i].coordinatelng;
 			markup += "<li><div data-role='collapsible'>";
 			markup += "<h3>" + cItems[i].name + "</h3>";
 			markup += "<p>" + cItems[i].address + "</p>";
-			markup += "<p class='ui-li-aside'><a href='#basic_map'>Ver Mapa</a></p>";
+			markup += "<p class='ui-li-aside'><a href='#basic_map' onclick=fadeEfect(coordinatelat,coordinatelng); >Ver Mapa</a></p>";
 			markup += "</div></li>";
 		}
 		markup += "</ul>";
@@ -113,18 +134,6 @@ $(document).bind( "pagebeforechange", function( e, data ) {
 		}
 	}
 });
-
-        $(function() {
-                // Also works with: var yourStartLatLng = '-11.981740, -77.058820';
-		var mobileDemo = { 'center': '-11.981740, -77.058820', 'zoom': 16 };
-                $('#map_canvas').gmap({'center': mobileDemo.center, 'zoom': mobileDemo.zoom, 'disableDefaultUI':true, 'callback': function() {
-							var self = this;
-							self.addMarker({'position': this.get('map').getCenter() }).click(function() {
-								self.openInfoWindow({ 'content': 'Hello World!' }, this);
-							});
-						}});
-	});
-
 </script>
 <body>
 
@@ -229,6 +238,25 @@ $(document).bind( "pagebeforechange", function( e, data ) {
 		<p><a href="#inicio" data-rel="back" data-role="button" data-inline="true" data-icon="back">Volver</a></p>	
 	</div><!-- /content -->
 </div><!-- /page error404 -->
+<div id=map></div>
+<div id=bg></div>
+  <script type="text/javascript">
+  
+    // Define the map to use from MapBox
+    // This is the TileJSON endpoint copied from the embed button on your map
+    // var url = 'PASTE YOUR TILEJSON URL HERE';
+    var url = 'http://a.tiles.mapbox.com/v3/ccarruitero.map-d86ft9dj.jsonp';
 
+    // Make a new Leaflet map in your container div
+    var map = new L.Map('map')
+
+    // Center the map on Washington, DC, at zoom 15
+    .setView(new L.LatLng(51.505,-0.09), 15);
+
+    // Get metadata about the map from MapBox
+    wax.tilejson(url, function(tilejson) {
+        map.addLayer(new wax.leaf.connector(tilejson));
+    });
+    </script>
 </body>
 </html>
