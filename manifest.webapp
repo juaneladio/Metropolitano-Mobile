@@ -2,7 +2,7 @@
       "version": "0.3",
       "name": "Metropolitano Mobile",
       "description": "Un experimento de codigo abierto a partir de informacion publica. Sin relacion con la Municipalidad Metropolitana de Lima.",
-      "launch_path": "/",
+      "launch_path": "/Metropolitano-Mobile/",
       "icons": {
         "16": "/img/icon16.png",
         "48": "/img/icon48.png",
