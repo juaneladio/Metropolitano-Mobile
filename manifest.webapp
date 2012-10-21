@@ -22,4 +22,15 @@
         }
       },
       "default_locale": "es"
+      "permissions": {
+        "browser": {
+          "description": "Requerido para navegar fuera de la aplicación"
+        },
+        "geolocation": {
+          "description": "Requerido para localizar al usuario"
+        }
+        "storage": {
+          "description": "Requerido para almacenar datos recurrentes"
+        }
+      }
     } 
