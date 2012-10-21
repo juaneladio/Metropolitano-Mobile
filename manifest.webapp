@@ -28,7 +28,7 @@
         },
         "geolocation": {
           "description": "Requerido para localizar al usuario"
-        }
+        },
         "storage": {
           "description": "Requerido para almacenar datos recurrentes"
         }
