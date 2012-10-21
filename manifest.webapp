@@ -21,7 +21,7 @@
           }
         }
       },
-      "default_locale": "es"
+      "default_locale": "es",
       "permissions": {
         "browser": {
           "description": "Requerido para navegar fuera de la aplicación"
