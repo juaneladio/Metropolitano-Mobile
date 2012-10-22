@@ -1,0 +1,14 @@
+Los archivos que componen Metropolitano Mobile son licenciados bajo la MPL 2.0 (http://mozilla.org/MPL/2.0/), con la excepción de los componentes listados a continuación, que son puestos a disposición por sus autores bajo las licencias indicadas.
+
+jQuery / jQuery Mobile
+----------------------
+jquery.mobile/jquery.mobile-1.1.1.min.css
+jquery.mobile/jquery.mobile-1.1.1.min.js
+jquery.mobile/jquery-1.7.1.min.js
+Licenciados bajo la licencia MIT
+
+Leaflet
+-------
+lib/leaflet/leaflet.css
+lib/leaflet/leaflet.js
+Licencia personalizada que permite su redistribución
