@@ -3,3 +3,20 @@ ACERCA DE METROPOLITANO MOBILE
 Proyecto en JQuery Mobile para construir una web móvil con información del servicio de transporte Metropolitano en Lima, Perú. Inspirado en la aplicación El Metropolitano para Android.
 
 La información utilizada por la aplicación fue obtenida desde la web http://www.metropolitano.com.pe/, sin embargo este proyecto no tiene relación alguna con la Municipalidad Metropolitana de Lima.
+
+DETALLE DE ARCHIVOS
+
+- index.html: Versión completa de la aplicación.
+
+- index-0.html: HTML simple con las tres llamadas a archivos de jQuery/jQuery Mobile.
+- index-1.html: Estructura básica de una página en jQuey Mobile.
+- index-2.html: Adición de enlaces de página principal de la aplicación.
+- index-3.html: Adición de segunda página 'Error' y enlaces en modo popup.
+- index-4.html: Adición de tercera página 'Contáctenos' con formularios.
+- index-5.html: Adición de función JS para detectar cambios de orientación.
+- index-6.html: Adición de cuarta página 'Servicios' con listas colapsables e imágenes externas.
+- index.html: Adición de quinta página 'Estaciones' con datos de un arreglo, con búsqueda en lista e inclusión de mapas de estaciones. Además, la página está lisa para ser instalada como Aplicación de Firefox.
+
+CONSEJOS
+
+- En el caso de usar Firefox para ver esta aplicación, se recomienda activar la opción Herramientas - Desarrollador web - Vista de diseño adaptable.
