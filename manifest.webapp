@@ -4,9 +4,9 @@
       "description": "Un experimento de codigo abierto a partir de informacion publica. Sin relacion con la Municipalidad Metropolitana de Lima.",
       "launch_path": "/Metropolitano-Mobile/",
       "icons": {
-        "16": "/img/icon16.png",
-        "48": "/img/icon48.png",
-        "128": "/img/icon128.png"
+        "16": "/Metropolitano-Mobile/img/icon16.png",
+        "48": "/Metropolitano-Mobile/img/icon48.png",
+        "128": "/Metropolitano-Mobile/img/icon128.png"
       },
       "developer": {
         "name": "Mozilla Perú",
